@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>1049766356295-heesnf1g76neh5le0tp053tv30ave3dk.apps.googleusercontent.com</string>
+	<string>84814631336-fpmp8ml88h5oil5olmg9eeauvct53thb.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1049766356295-heesnf1g76neh5le0tp053tv30ave3dk</string>
+	<string>com.googleusercontent.apps.84814631336-fpmp8ml88h5oil5olmg9eeauvct53thb</string>
 	<key>API_KEY</key>
-	<string>AIzaSyB_D35SYQesYhQznLGP-UFFzJNy1UpCkOo</string>
+	<string>AIzaSyAPACoZMw7V4tvGXQOSkw6OxDLsF6R93ds</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1049766356295</string>
+	<string>84814631336</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.aB.HandsOff</string>
+	<string>com.RKC.PhoneGame</string>
 	<key>PROJECT_ID</key>
-	<string>handsoff-39e52</string>
+	<string>phonegame-dbe9b</string>
 	<key>STORAGE_BUCKET</key>
-	<string>handsoff-39e52.appspot.com</string>
+	<string>phonegame-dbe9b.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1049766356295:ios:62529d576f2bd087</string>
+	<string>1:84814631336:ios:9d41816d06918163</string>
 	<key>DATABASE_URL</key>
-	<string>https://handsoff-39e52.firebaseio.com</string>
+	<string>https://phonegame-dbe9b.firebaseio.com</string>
 </dict>
 </plist>

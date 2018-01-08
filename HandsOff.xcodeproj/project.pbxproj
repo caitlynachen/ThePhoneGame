@@ -15,13 +15,13 @@
 		200D83EA1FF302F80009F414 /* HandsOffUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200D83E91FF302F80009F414 /* HandsOffUITests.swift */; };
 		202FC7AA1FF48325001C1B47 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202FC7A91FF48325001C1B47 /* LoginVC.swift */; };
 		2068B3CD1FF85FBF0017DFC7 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2068B3CC1FF85FBF0017DFC7 /* CustomButton.swift */; };
-		2068B3D31FF8804A0017DFC7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2068B3D21FF8804A0017DFC7 /* GoogleService-Info.plist */; };
 		20761D5D1FF9AA3000B14046 /* PaymentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20761D5C1FF9AA3000B14046 /* PaymentVC.swift */; };
 		20761D5F1FF9AAD600B14046 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20761D5E1FF9AAD600B14046 /* PassKit.framework */; };
 		20A30F611FF353D000027283 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A30F601FF353D000027283 /* CustomTabBar.swift */; };
 		20AC3B4B1FF348C1005A97C0 /* SessionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AC3B4A1FF348C1005A97C0 /* SessionVC.swift */; };
 		20AC3B4D1FF34956005A97C0 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AC3B4C1FF34956005A97C0 /* SettingsVC.swift */; };
 		20C13A7A1FF8880C00EDF5F2 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C13A791FF8880C00EDF5F2 /* CustomLabel.swift */; };
+		20F4376C2003163700BD27DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 20F4376B2003163700BD27DC /* GoogleService-Info.plist */; };
 		B195E89097F88410D8831E24 /* Pods_HandsOff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 459FB1869B2B98061BD7FAF1 /* Pods_HandsOff.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,13 +58,13 @@
 		202FC7A91FF48325001C1B47 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		204EEAAC1FF5FD5700B01A35 /* HandsOff.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HandsOff.entitlements; sourceTree = "<group>"; };
 		2068B3CC1FF85FBF0017DFC7 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		2068B3D21FF8804A0017DFC7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		20761D5C1FF9AA3000B14046 /* PaymentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentVC.swift; sourceTree = "<group>"; };
 		20761D5E1FF9AAD600B14046 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		20A30F601FF353D000027283 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		20AC3B4A1FF348C1005A97C0 /* SessionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionVC.swift; sourceTree = "<group>"; };
 		20AC3B4C1FF34956005A97C0 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		20C13A791FF8880C00EDF5F2 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		20F4376B2003163700BD27DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2CC625247286CB35EA896D16 /* Pods-HandsOff.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HandsOff.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HandsOff/Pods-HandsOff.debug.xcconfig"; sourceTree = "<group>"; };
 		459FB1869B2B98061BD7FAF1 /* Pods_HandsOff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HandsOff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB09AD27A759BB2F3C0997D9 /* Pods-HandsOff.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HandsOff.release.xcconfig"; path = "Pods/Target Support Files/Pods-HandsOff/Pods-HandsOff.release.xcconfig"; sourceTree = "<group>"; };
@@ -129,7 +129,7 @@
 				200D83D01FF302F80009F414 /* Assets.xcassets */,
 				200D83C91FF302F80009F414 /* AppDelegate.swift */,
 				200D83D51FF302F80009F414 /* Info.plist */,
-				2068B3D21FF8804A0017DFC7 /* GoogleService-Info.plist */,
+				20F4376B2003163700BD27DC /* GoogleService-Info.plist */,
 			);
 			path = HandsOff;
 			sourceTree = "<group>";
@@ -322,7 +322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				200D83D41FF302F80009F414 /* LaunchScreen.storyboard in Resources */,
-				2068B3D31FF8804A0017DFC7 /* GoogleService-Info.plist in Resources */,
+				20F4376C2003163700BD27DC /* GoogleService-Info.plist in Resources */,
 				200D83D11FF302F80009F414 /* Assets.xcassets in Resources */,
 				200D83CF1FF302F80009F414 /* Main.storyboard in Resources */,
 			);
@@ -592,10 +592,10 @@
 				CODE_SIGN_ENTITLEMENTS = HandsOff/HandsOff.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 75HCU23U25;
+				DEVELOPMENT_TEAM = 342A5N9CW3;
 				INFOPLIST_FILE = HandsOff/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.aB.HandsOff;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RKC.PhoneGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
@@ -611,10 +611,10 @@
 				CODE_SIGN_ENTITLEMENTS = HandsOff/HandsOff.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 75HCU23U25;
+				DEVELOPMENT_TEAM = 342A5N9CW3;
 				INFOPLIST_FILE = HandsOff/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.aB.HandsOff;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RKC.PhoneGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
