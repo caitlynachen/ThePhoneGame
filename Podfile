@@ -6,5 +6,11 @@ target 'HandsOff' do
 pod 'Firebase'
 pod 'Firebase/Core'
 pod 'Firebase/Analytics'
+pod 'Firebase/Auth'
+pod 'GoogleSignIn'
+pod 'FBSDKLoginKit'
+pod 'FBSDKCoreKit'
+pod 'FBSDKShareKit'
+
 
 end

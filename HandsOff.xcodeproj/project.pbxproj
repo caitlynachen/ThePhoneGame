@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C57B4382003C942001F3639 /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C57B4372003C942001F3639 /* CreateUserViewController.swift */; };
+		1CD84A39200490A400296390 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202FC7A91FF48325001C1B47 /* LoginVC.swift */; };
 		200D83CA1FF302F80009F414 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200D83C91FF302F80009F414 /* AppDelegate.swift */; };
 		200D83CF1FF302F80009F414 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 200D83CD1FF302F80009F414 /* Main.storyboard */; };
 		200D83D11FF302F80009F414 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 200D83D01FF302F80009F414 /* Assets.xcassets */; };
@@ -43,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C57B4372003C942001F3639 /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
 		200D83C61FF302F80009F414 /* HandsOff.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandsOff.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		200D83C91FF302F80009F414 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		200D83CE1FF302F80009F414 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -159,6 +162,7 @@
 				20761D5C1FF9AA3000B14046 /* PaymentVC.swift */,
 				20AC3B4A1FF348C1005A97C0 /* SessionVC.swift */,
 				20AC3B4C1FF34956005A97C0 /* SettingsVC.swift */,
+				1C57B4372003C942001F3639 /* CreateUserViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -276,6 +280,9 @@
 							com.apple.ApplePay = {
 								enabled = 1;
 							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -352,14 +359,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-HandsOff/Pods-HandsOff-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle,
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
-				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -395,11 +395,23 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-HandsOff/Pods-HandsOff-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -420,6 +432,7 @@
 				200D83CA1FF302F80009F414 /* AppDelegate.swift in Sources */,
 				2068B3CD1FF85FBF0017DFC7 /* CustomButton.swift in Sources */,
 				20C13A7A1FF8880C00EDF5F2 /* CustomLabel.swift in Sources */,
+				1C57B4382003C942001F3639 /* CreateUserViewController.swift in Sources */,
 				202FC7AA1FF48325001C1B47 /* LoginVC.swift in Sources */,
 				20AC3B4B1FF348C1005A97C0 /* SessionVC.swift in Sources */,
 				20AC3B4D1FF34956005A97C0 /* SettingsVC.swift in Sources */,
@@ -438,6 +451,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CD84A39200490A400296390 /* LoginVC.swift in Sources */,
 				200D83EA1FF302F80009F414 /* HandsOffUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

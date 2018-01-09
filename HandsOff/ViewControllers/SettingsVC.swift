@@ -18,8 +18,8 @@ class SettingsVC: UIViewController {
     
     // Called when logout is touched
     @IBAction func didTapLogout(_ sender: Any) {
-        let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
-        self.dismiss(animated: true, completion: nil)
-        self.navigationController?.present(loginViewController, animated: true)
+//        let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
+//        self.dismiss(animated: true, completion: nil)
+//        self.navigationController?.present(loginViewController, animated: true)
     }
 }
