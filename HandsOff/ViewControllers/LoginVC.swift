@@ -11,6 +11,7 @@ import UIKit
 import Firebase
 import GoogleSignIn
 import FBSDKLoginKit
+import FirebaseAuth
 
 // Our simple login view where a user will be able to use multiple platforms to authenticate
 class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDelegate, GIDSignInUIDelegate, GIDSignInDelegate {
@@ -20,14 +21,13 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
      */
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passField: UITextField!
-    
+
     /*
      This is function is called on every view controller and initiates
      the view. We also call a custom function to control some behavior.
      */
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.hideKeyboardWhenTappedAround()
         setupView()
     }
     
@@ -44,13 +44,15 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
         emailField.becomeFirstResponder()
         self.navigationController?.navigationBar.isHidden = true
         
+        self.hideKeyboardWhenTappedAround()
+
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
         
         GIDSignIn.sharedInstance().uiDelegate = self
     
+        //If there is a currentUser signed in, move to Custom Tab Bar Controller
         if Auth.auth().currentUser != nil {
-            // User is signed in.
             self.performSegue(withIdentifier: "loginToHome", sender: self)
 
         }
@@ -58,28 +60,17 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
     }
     
     /*
-     This function is called when the user taps login or return in the
-     password field
-     */
+     This function is called when the user wants to LogOut.
+ 
     @IBAction func signOutTapped(_ sender: Any) {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-            print("signed out")
-        } catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
-
-            let alertController = UIAlertController(title: "Signout Error", message: signOutError.localizedDescription, preferredStyle: .alert)
-            let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            alertController.addAction(okayAction)
-            self.present(alertController, animated: true, completion: nil)
-            
-            return
-        }
-        
+        logOut(segueId: "")
     }
+      */
     
-    //
+    
+    /*
+     This function is called wants to Login with Email/Password.
+     */
     @IBAction func didTapLogin() {
         if Auth.auth().currentUser != nil {
             // User is signed in.
@@ -87,37 +78,29 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
             // No user is signed in.
             Auth.auth().signIn(withEmail: emailField.text!, password: passField.text!) { (user, error) in
                 if let error = error {
-                    print("Login error: \(error.localizedDescription)")
-                    let alertController = UIAlertController(title: "Login Error", message: error.localizedDescription, preferredStyle: .alert)
-                    let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alertController.addAction(okayAction)
-                    self.present(alertController, animated: true, completion: nil)
-                    
+                    self.errorMessage(errorMsg: error.localizedDescription)
                     return
                 }
-                print("\(user!.email!) logged in")
-                
+                self.LoginSuccess(segueId: "loginToHome")
+
                  // Clears the textfields
                 self.emailField.text? = ""
                 self.passField.text? = ""
                 
                 // This loads the profile/Session view controller and dismisses the login view controller
-                self.performSegue(withIdentifier: "loginToHome", sender: self)
 
             }
         }
        
     }
     
+    /*
+     This function is called when the user wants to login with Google Sign In.
+     */
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
         
         if let error = error {
-            print("Launch error: \(error.localizedDescription)")
-            let alertController = UIAlertController(title: "Launch Error", message: error.localizedDescription, preferredStyle: .alert)
-            let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            alertController.addAction(okayAction)
-            self.present(alertController, animated: true, completion: nil)
-            
+            errorMessage(errorMsg: error.localizedDescription)
             return
         }
         guard let authentication = user.authentication else { return }
@@ -125,29 +108,26 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
                                                        accessToken: authentication.accessToken)
         Auth.auth().signIn(with: credential) { (user, error) in
             if let error = error {
-                print("Login error: \(error.localizedDescription)")
-                let alertController = UIAlertController(title: "Login Error", message: error.localizedDescription, preferredStyle: .alert)
-                let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                alertController.addAction(okayAction)
-                self.present(alertController, animated: true, completion: nil)
-                
+                self.errorMessage(errorMsg: error.localizedDescription)
                 return
             }
             //User signed in
-            self.performSegue(withIdentifier: "loginToHome", sender: self)
+            
+            self.LoginSuccess(segueId: "loginToHome")
+
         }
     }
     
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        // Perform any operations when the user disconnects from app here.
-        // ...
-    }
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {}
  
+    /*
+     This function is called when the user wants to login with FB SignIn.
+     */
     @IBAction func FBLoginTouched(_ sender: Any) {
         let fbLoginManager = FBSDKLoginManager()
         fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
             if let error = error {
-                print("Failed to login: \(error.localizedDescription)")
+                self.errorMessage(errorMsg: error.localizedDescription)
                 return
             }
             
@@ -161,23 +141,17 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
             // Perform login by calling Firebase APIs
             Auth.auth().signIn(with: credential, completion: { (user, error) in
                 if let error = error {
-                    print("Login error: \(error.localizedDescription)")
-                    let alertController = UIAlertController(title: "Login Error", message: error.localizedDescription, preferredStyle: .alert)
-                    let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alertController.addAction(okayAction)
-                    self.present(alertController, animated: true, completion: nil)
-                    
+                    self.errorMessage(errorMsg: error.localizedDescription)
                     return
                 }
           
-                self.performSegue(withIdentifier: "loginToHome", sender: self)
+                self.LoginSuccess(segueId: "loginToHome")
 
             })
             
         }
     }
-    
-    
+   
     //TODO: FireBase calls
     // This is where Firebase returns tokens and we load up a session id
     
@@ -199,10 +173,20 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
         }
         return true
     }
+    
+    
+    //unwind Segue To LoginVC Getter
+    @IBAction func unwindToVC1(segue:UIStoryboardSegue) { }
+    
     //TODO: User input methods
     // Function for user input checks
+    
+
 }
 
+/*
+ Shared functions of all ViewControllers.
+ */
 extension UIViewController {
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
@@ -210,7 +194,57 @@ extension UIViewController {
         view.addGestureRecognizer(tap)
     }
     
+
+    func LoginSuccess(segueId: String){
+        let alertController = UIAlertController(title: "Login Success", message: (Auth.auth().currentUser?.email!)! + ", you have been successfully logged in.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: { (action) -> Void in
+            alertController.dismiss(animated: true, completion: nil)
+            self.performSegue(withIdentifier: segueId, sender: self)
+            
+            
+        })
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+        
+        
+    }
+    
+    func errorMessage(errorMsg:String){
+        let alertController = UIAlertController(title: "Login Error", message: errorMsg, preferredStyle: .alert)
+        let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(okayAction)
+        self.present(alertController, animated: true, completion: nil)
+        
+    }
+    
+    func logOut(segueId: String){
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            let alertController = UIAlertController(title: "Signout", message: "You have successfully signed out!",preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: { (action) -> Void in
+                alertController.dismiss(animated: true, completion: nil)
+                if segueId != ""{
+                    self.performSegue(withIdentifier: segueId, sender: self)
+                }
+                
+            })
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+            
+            
+            
+        } catch let error as NSError {
+            errorMessage(errorMsg: error.localizedDescription)
+            return
+        }
+        
+    }
+    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    
 }
+

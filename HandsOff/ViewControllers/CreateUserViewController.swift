@@ -23,17 +23,15 @@ class CreateUserViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
+    /*
+     This function is called when the user wants to create a new user using Email/Password method.
+     */
     @IBAction func createUserButtonTapped(_ sender: Any) {
         Auth.auth().createUser(withEmail: emailTextField.text!, password: passWordTextField.text!) { (user, error) in
             
             if let error = error {
                 
-                print("Create user error: \(error.localizedDescription)")
-                let alertController = UIAlertController(title: "Create User Error", message: error.localizedDescription, preferredStyle: .alert)
-                let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                alertController.addAction(okayAction)
-                self.present(alertController, animated: true, completion: nil)
-                
+                self.errorMessage(errorMsg: error.localizedDescription)
                 return
             }
             print("\(user!.email!) created")

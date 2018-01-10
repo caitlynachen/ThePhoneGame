@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 // Our humble settings view that allows the user to logout
 class SettingsVC: UIViewController {
@@ -16,10 +17,11 @@ class SettingsVC: UIViewController {
         super.viewDidLoad()
     }
     
-    // Called when logout is touched
+    /*
+     This function is called when the user wants to log out.
+     */
     @IBAction func didTapLogout(_ sender: Any) {
-//        let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
-//        self.dismiss(animated: true, completion: nil)
-//        self.navigationController?.present(loginViewController, animated: true)
+        logOut(segueId: "unwindToLogin")
+
     }
 }
