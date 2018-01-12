@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1C57B4382003C942001F3639 /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C57B4372003C942001F3639 /* CreateUserViewController.swift */; };
+		1C77B20220086DF500192E0D /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C77B20120086DF500192E0D /* SessionModel.swift */; };
 		1CD84A39200490A400296390 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202FC7A91FF48325001C1B47 /* LoginVC.swift */; };
 		200D83CA1FF302F80009F414 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200D83C91FF302F80009F414 /* AppDelegate.swift */; };
 		200D83CF1FF302F80009F414 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 200D83CD1FF302F80009F414 /* Main.storyboard */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		1C57B4372003C942001F3639 /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
+		1C77B20120086DF500192E0D /* SessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
 		200D83C61FF302F80009F414 /* HandsOff.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandsOff.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		200D83C91FF302F80009F414 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		200D83CE1FF302F80009F414 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				200D83CD1FF302F80009F414 /* Main.storyboard */,
+				1C77B20120086DF500192E0D /* SessionModel.swift */,
 				200D83D21FF302F80009F414 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
@@ -363,7 +366,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -402,6 +405,7 @@
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -413,6 +417,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,6 +436,7 @@
 				20761D5D1FF9AA3000B14046 /* PaymentVC.swift in Sources */,
 				200D83CA1FF302F80009F414 /* AppDelegate.swift in Sources */,
 				2068B3CD1FF85FBF0017DFC7 /* CustomButton.swift in Sources */,
+				1C77B20220086DF500192E0D /* SessionModel.swift in Sources */,
 				20C13A7A1FF8880C00EDF5F2 /* CustomLabel.swift in Sources */,
 				1C57B4382003C942001F3639 /* CreateUserViewController.swift in Sources */,
 				202FC7AA1FF48325001C1B47 /* LoginVC.swift in Sources */,
@@ -606,7 +612,7 @@
 				CODE_SIGN_ENTITLEMENTS = HandsOff/HandsOff.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 342A5N9CW3;
+				DEVELOPMENT_TEAM = V63Q6AWG53;
 				INFOPLIST_FILE = HandsOff/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.RKC.PhoneGame;
@@ -625,7 +631,7 @@
 				CODE_SIGN_ENTITLEMENTS = HandsOff/HandsOff.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 342A5N9CW3;
+				DEVELOPMENT_TEAM = V63Q6AWG53;
 				INFOPLIST_FILE = HandsOff/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.RKC.PhoneGame;

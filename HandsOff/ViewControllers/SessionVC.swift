@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import CoreMotion
+import Firebase
+import FirebaseDatabase
 
 // Our sesssions view that allows the user to host or join a session
 class SessionVC: UIViewController {
@@ -19,37 +21,56 @@ class SessionVC: UIViewController {
     @IBOutlet weak var sessionInProLbl: UILabel!
     @IBOutlet weak var phoneDownLbl: UILabel!
     
+    var ref: DatabaseReference?
     /*
      This assigns an object to a variable allowing us
      access to the devices movement mechanics. Gyroscope, accelerometer...
-    */
+     */
     let motionManager: CMMotionManager = CMMotionManager()
     var terms = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ref = Database.database().reference().child("sessions")
+        
+        
+        
+        
         /*
          // This displays a welcome message with the users name. Currently turned off for debugging
          let ac = UIAlertController(title: "Welcome", message: "Host or Join a session", preferredStyle: .alert)
          ac.addAction(UIAlertAction(title: "OK", style: .cancel))
          present(ac, animated: true)
-        */
+         */
     }
     
-    // This displays the terms sheet and allows the user to start the session. It also animates the view a bit.
+    // This displays the terms sheet and allows the user to start the session. It also animates the view a bit and creates a session in Firebase.
     func sessionStart() {
         let ac = UIAlertController(title: "Enter Terms", message: nil, preferredStyle: .alert)
-        ac.addTextField()
+        ac.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Terms"
+        }
         ac.addAction(UIAlertAction(title: "Start Session", style: .default) { alert in
             self.hostBtn.isHidden = true
             self.joinBtn.isHidden = true
             self.hostBtn.isEnabled = false
             self.joinBtn.isEnabled = false
             self.performAnimation()
+            
+            let sessionModel = SessionModel(hostUser: (Auth.auth().currentUser?.email)!, inSession: "true", terms: ac.textFields![0].text!, key: "")
+            let sessionRef = self.ref?.childByAutoId()
+            
+            sessionRef?.setValue(sessionModel.toAnyObject())
+            
+            
+            
         })
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
         present(ac, animated: true)
+        
+        
     }
     
     // A simple animation function to display the "Put phone down" message and a delay to give them 5 seconds to do so
