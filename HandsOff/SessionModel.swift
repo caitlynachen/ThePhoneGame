@@ -46,7 +46,8 @@ struct SessionModel {
         return [
             "hostUser": hostUser,
             "inSession": inSession,
-            "terms": terms            
+            "terms": terms,
+            "key": key
         ]
         
     }

@@ -128,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				204EEAAC1FF5FD5700B01A35 /* HandsOff.entitlements */,
+				1C77B20120086DF500192E0D /* SessionModel.swift */,
 				202FC7AB1FF48339001C1B47 /* ViewControllers */,
 				202FC7AC1FF48360001C1B47 /* CustomViews */,
 				202FC7AD1FF48394001C1B47 /* Storyboards */,
@@ -183,7 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				200D83CD1FF302F80009F414 /* Main.storyboard */,
-				1C77B20120086DF500192E0D /* SessionModel.swift */,
 				200D83D21FF302F80009F414 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;

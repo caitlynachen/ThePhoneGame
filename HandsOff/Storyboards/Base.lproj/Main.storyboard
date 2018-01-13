@@ -45,7 +45,6 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="didTapLogout:" destination="vwk-fW-l9j" eventType="touchUpInside" id="ONS-t0-k4C"/>
                                             <action selector="didtapHostBtn:" destination="J7T-Zs-rvG" eventType="touchUpInside" id="LFz-5t-J6g"/>
                                         </connections>
                                     </button>
@@ -63,7 +62,6 @@
                                         </state>
                                         <connections>
                                             <action selector="didTapJoinBtn:" destination="J7T-Zs-rvG" eventType="touchUpInside" id="917-jG-yjB"/>
-                                            <action selector="didTapLogout:" destination="vwk-fW-l9j" eventType="touchUpInside" id="9uz-6z-ZfW"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -81,11 +79,22 @@
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Put your phone down!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CCa-gh-gb8">
                                 <rect key="frame" x="65" y="408" width="245" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="245" id="RHH-ug-qGU"/>
                                     <constraint firstAttribute="height" constant="50" id="VxE-Ey-Ike"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Session ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kNB-tb-uOZ">
+                                <rect key="frame" x="65" y="93" width="124" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PA4-YA-luw">
+                                <rect key="frame" x="194" y="90" width="31" height="14.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -94,12 +103,16 @@
                             <constraint firstItem="Rh6-U6-0Z6" firstAttribute="trailing" secondItem="CCa-gh-gb8" secondAttribute="trailing" constant="65" id="7bE-z3-xWE"/>
                             <constraint firstItem="NAx-jp-2Ec" firstAttribute="leading" secondItem="Rh6-U6-0Z6" secondAttribute="leading" constant="55" id="GFc-EV-XKb"/>
                             <constraint firstItem="Rh6-U6-0Z6" firstAttribute="trailing" secondItem="NAx-jp-2Ec" secondAttribute="trailing" constant="55" id="IPd-3l-Ifq"/>
+                            <constraint firstItem="PA4-YA-luw" firstAttribute="top" secondItem="Rh6-U6-0Z6" secondAttribute="top" constant="26" id="J0p-Zh-40U"/>
                             <constraint firstItem="Rh6-U6-0Z6" firstAttribute="trailing" secondItem="4cm-Rc-Jcl" secondAttribute="trailing" constant="109" id="Qiz-w9-OCv"/>
+                            <constraint firstItem="kNB-tb-uOZ" firstAttribute="leading" secondItem="Rh6-U6-0Z6" secondAttribute="leading" constant="65" id="Sq0-Vi-Fjn"/>
                             <constraint firstItem="Rh6-U6-0Z6" firstAttribute="bottom" secondItem="CCa-gh-gb8" secondAttribute="bottom" constant="141" id="U4F-Ax-IT7"/>
                             <constraint firstItem="4cm-Rc-Jcl" firstAttribute="leading" secondItem="Rh6-U6-0Z6" secondAttribute="leading" constant="109" id="U77-PF-lvY"/>
                             <constraint firstItem="Rh6-U6-0Z6" firstAttribute="bottom" secondItem="4cm-Rc-Jcl" secondAttribute="bottom" constant="199" id="Uqt-BW-xKD"/>
                             <constraint firstItem="NAx-jp-2Ec" firstAttribute="top" secondItem="Rh6-U6-0Z6" secondAttribute="top" constant="58" id="Y5D-tS-YGr"/>
                             <constraint firstItem="4cm-Rc-Jcl" firstAttribute="top" secondItem="Rh6-U6-0Z6" secondAttribute="top" constant="183" id="tyY-hO-XtR"/>
+                            <constraint firstItem="kNB-tb-uOZ" firstAttribute="top" secondItem="Rh6-U6-0Z6" secondAttribute="top" constant="29" id="uZ2-4x-2fy"/>
+                            <constraint firstItem="PA4-YA-luw" firstAttribute="leading" secondItem="kNB-tb-uOZ" secondAttribute="trailing" constant="5" id="vss-ms-qDO"/>
                             <constraint firstItem="CCa-gh-gb8" firstAttribute="leading" secondItem="Rh6-U6-0Z6" secondAttribute="leading" constant="65" id="yxE-gO-3VF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Rh6-U6-0Z6"/>
@@ -111,7 +124,9 @@
                         <outlet property="hostBtn" destination="Ful-3j-xaK" id="eXy-pz-3mg"/>
                         <outlet property="joinBtn" destination="uh7-fg-Kf0" id="nBr-bJ-lDr"/>
                         <outlet property="phoneDownLbl" destination="CCa-gh-gb8" id="JUp-nN-RfO"/>
+                        <outlet property="sessionIDLbl" destination="PA4-YA-luw" id="dfR-Ze-VyH"/>
                         <outlet property="sessionInProLbl" destination="NAx-jp-2Ec" id="2cJ-mO-fxz"/>
+                        <outlet property="yourSessionIDLbl" destination="kNB-tb-uOZ" id="fco-TV-pHl"/>
                         <segue destination="h1i-9l-D3z" kind="presentation" identifier="PaymentVC" id="XZW-D3-PaZ"/>
                     </connections>
                 </viewController>

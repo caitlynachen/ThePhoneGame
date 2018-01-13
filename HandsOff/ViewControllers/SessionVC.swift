@@ -19,6 +19,9 @@ class SessionVC: UIViewController {
     @IBOutlet weak var hostBtn: CustomButton!
     @IBOutlet weak var joinBtn: CustomButton!
     @IBOutlet weak var sessionInProLbl: UILabel!
+    @IBOutlet weak var yourSessionIDLbl: UILabel!
+    
+    @IBOutlet weak var sessionIDLbl: UILabel!
     @IBOutlet weak var phoneDownLbl: UILabel!
     
     var ref: DatabaseReference?
@@ -45,6 +48,8 @@ class SessionVC: UIViewController {
          */
     }
     
+    var sessionRef: DatabaseReference?
+    
     // This displays the terms sheet and allows the user to start the session. It also animates the view a bit and creates a session in Firebase.
     func sessionStart() {
         let ac = UIAlertController(title: "Enter Terms", message: nil, preferredStyle: .alert)
@@ -58,10 +63,16 @@ class SessionVC: UIViewController {
             self.joinBtn.isEnabled = false
             self.performAnimation()
             
-            let sessionModel = SessionModel(hostUser: (Auth.auth().currentUser?.email)!, inSession: "true", terms: ac.textFields![0].text!, key: "")
-            let sessionRef = self.ref?.childByAutoId()
+            self.sessionRef = self.ref?.childByAutoId()
             
-            sessionRef?.setValue(sessionModel.toAnyObject())
+            let sessionModel = SessionModel(hostUser: (Auth.auth().currentUser?.email)!, inSession: "true", terms: ac.textFields![0].text!, key: (self.sessionRef?.key)!)
+            
+            
+            self.sessionRef?.setValue(sessionModel.toAnyObject())
+            
+            self.yourSessionIDLbl.isHidden = false
+            self.sessionIDLbl.text = self.sessionRef?.key
+            self.sessionIDLbl.isHidden = false
             
             
             
@@ -75,6 +86,7 @@ class SessionVC: UIViewController {
     
     // A simple animation function to display the "Put phone down" message and a delay to give them 5 seconds to do so
     func performAnimation() {
+        
         phoneDownLbl.alpha = 0
         UIView.animate(withDuration: 5.0, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.0, options: [], animations: {
             self.phoneDownLbl.center = CGPoint(x: 200, y: 90 + 200)
@@ -132,13 +144,35 @@ class SessionVC: UIViewController {
     
     // Runs when the join button is pressed
     @IBAction func didTapJoinBtn(_ sender: Any) {
-        let ac = UIAlertController(title: "Enter Session id", message: nil, preferredStyle: .alert)
+        let ac = UIAlertController(title: "Enter Host's Email", message: nil, preferredStyle: .alert)
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "Join a Session", style: .default, handler: {
             alert in
             
+            
+            self.ref?.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
+                for i in snapshot.children {
+                    let sModel = SessionModel(snapshot: i as! DataSnapshot)
+                    if (sModel.hostUser ==  ac.textFields![0].text!){
+                        let datasnap = i as! DataSnapshot
+                        
+                        let joinedRef = datasnap.ref.child("joinedUsers")
+                        
+                        joinedRef.childByAutoId().setValue(Auth.auth().currentUser?.email!)
+                        
+                    }
+                }
+            })
+            
         }))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
         present(ac, animated: true)
+        
+        
+        
+        
+        
+        
     }
 }
