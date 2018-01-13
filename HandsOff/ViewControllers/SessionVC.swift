@@ -25,6 +25,11 @@ class SessionVC: UIViewController {
     @IBOutlet weak var phoneDownLbl: UILabel!
     
     var ref: DatabaseReference?
+    var notInSessionRef: DatabaseReference?
+    
+    var currentUserSession: SessionModel?
+    var sessionRef: DatabaseReference?
+
     /*
      This assigns an object to a variable allowing us
      access to the devices movement mechanics. Gyroscope, accelerometer...
@@ -36,9 +41,7 @@ class SessionVC: UIViewController {
         super.viewDidLoad()
         
         ref = Database.database().reference().child("sessions")
-        
-        
-        
+        notInSessionRef = Database.database().reference().child("notInSession")
         
         /*
          // This displays a welcome message with the users name. Currently turned off for debugging
@@ -48,7 +51,6 @@ class SessionVC: UIViewController {
          */
     }
     
-    var sessionRef: DatabaseReference?
     
     // This displays the terms sheet and allows the user to start the session. It also animates the view a bit and creates a session in Firebase.
     func sessionStart() {
@@ -57,35 +59,32 @@ class SessionVC: UIViewController {
             textField.placeholder = "Terms"
         }
         ac.addAction(UIAlertAction(title: "Start Session", style: .default) { alert in
-            self.hostBtn.isHidden = true
-            self.joinBtn.isHidden = true
-            self.hostBtn.isEnabled = false
-            self.joinBtn.isEnabled = false
-            self.performAnimation()
             
+            //create a session with currentUser as host
             self.sessionRef = self.ref?.childByAutoId()
-            
             let sessionModel = SessionModel(hostUser: (Auth.auth().currentUser?.email)!, inSession: "true", terms: ac.textFields![0].text!, key: (self.sessionRef?.key)!)
-            
-            
             self.sessionRef?.setValue(sessionModel.toAnyObject())
             
-            self.yourSessionIDLbl.isHidden = false
-            self.sessionIDLbl.text = self.sessionRef?.key
-            self.sessionIDLbl.isHidden = false
+            self.currentUserSession = sessionModel
             
-            
+            self.performAnimation()
             
         })
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        
         present(ac, animated: true)
-        
         
     }
     
     // A simple animation function to display the "Put phone down" message and a delay to give them 5 seconds to do so
     func performAnimation() {
+        self.hostBtn.isHidden = true
+        self.joinBtn.isHidden = true
+        self.hostBtn.isEnabled = false
+        self.joinBtn.isEnabled = false
+        
+        self.yourSessionIDLbl.isHidden = false
+        self.sessionIDLbl.text = self.sessionRef?.key
+        self.sessionIDLbl.isHidden = false
         
         phoneDownLbl.alpha = 0
         UIView.animate(withDuration: 5.0, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.0, options: [], animations: {
@@ -106,6 +105,12 @@ class SessionVC: UIViewController {
             if let data = data {
                 if abs(data.acceleration.z) > 1 || abs(data.acceleration.x) > 0.5 || abs(data.acceleration.y) > 0.5 {
                     print("Moved!! Pony up!")
+                    
+                    //move currentsession to notInSession
+                    //remove session from sessions
+                    self.notInSessionRef?.setValue(self.currentUserSession?.toAnyObject())
+                    self.sessionRef?.removeValue()
+                    
                     let ac = UIAlertController(title: "Pony Up!", message: "Please pay the penalty terms", preferredStyle: .alert)
                     ac.addAction(UIAlertAction(title: "Pay", style: .default) { _ in
                         //TODO: Apple Pay
@@ -133,14 +138,25 @@ class SessionVC: UIViewController {
     
     // If the user decides to pay the penalty, we display the payment view.
     func didPressPay() {
-        let payVC = self.storyboard?.instantiateViewController(withIdentifier: "PaymentVC")
-        self.navigationController?.pushViewController(payVC!, animated: true)
+       self.performSegue(withIdentifier: "sessionToPayment", sender: self)
+        
     }
+    
+    //transfer currentUserSessionModel to Payment screen in order to provide info on who to pay and the terms
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "sessionToPayment"{
+            
+            let destVC = segue.destination as! PaymentVC
+            destVC.currentUserSession = currentUserSession
+        }
+    }
+    
     
     // Runs when the host button is pressed
     @IBAction func didtapHostBtn(_ sender: Any) {
         sessionStart()
     }
+    
     
     // Runs when the join button is pressed
     @IBAction func didTapJoinBtn(_ sender: Any) {
@@ -149,17 +165,25 @@ class SessionVC: UIViewController {
         ac.addAction(UIAlertAction(title: "Join a Session", style: .default, handler: {
             alert in
             
-            
+            //observe possible sessions to join
             self.ref?.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
                 for i in snapshot.children {
                     let sModel = SessionModel(snapshot: i as! DataSnapshot)
                     if (sModel.hostUser ==  ac.textFields![0].text!){
+                        self.currentUserSession = sModel
+                        
                         let datasnap = i as! DataSnapshot
+                        self.sessionRef = datasnap.ref
                         
                         let joinedRef = datasnap.ref.child("joinedUsers")
                         
                         joinedRef.childByAutoId().setValue(Auth.auth().currentUser?.email!)
+                        self.performAnimation()
                         
+                    } else{
+                        let ac = UIAlertController(title: "Session Not Available", message: "This host user is not currently holding a session.", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "OK", style: .cancel))
+                        self.present(ac, animated: true)
                     }
                 }
             })
@@ -168,10 +192,6 @@ class SessionVC: UIViewController {
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
         present(ac, animated: true)
-        
-        
-        
-        
         
         
     }

@@ -13,6 +13,8 @@ import PassKit
 // This is where we pony up!
 class PaymentVC: UIViewController {
     
+    var currentUserSession: SessionModel?
+    
     //TODO: Implement Apple Pay
     override func viewDidLoad() {
         super.viewDidLoad()
