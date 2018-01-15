@@ -18,5 +18,14 @@ class PaymentVC: UIViewController {
     //TODO: Implement Apple Pay
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "PaymentToVenmo"{
+            
+            let destVC = segue.destination as! VenmoWebVC
+            destVC.currentUserSession = currentUserSession
+        }
     }
 }

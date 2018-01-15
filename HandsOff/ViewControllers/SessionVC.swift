@@ -195,4 +195,8 @@ class SessionVC: UIViewController {
         
         
     }
+    @IBAction func payNowTapped(_ sender: Any) {
+        self.performSegue(withIdentifier: "sessionToPayment", sender: self)
+    }
+    
 }

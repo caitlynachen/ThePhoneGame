@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1C57B4382003C942001F3639 /* CreateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C57B4372003C942001F3639 /* CreateUserViewController.swift */; };
 		1C77B20220086DF500192E0D /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C77B20120086DF500192E0D /* SessionModel.swift */; };
+		1C8A74A2200D6BD3009F6047 /* VenmoWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8A74A1200D6BD3009F6047 /* VenmoWebVC.swift */; };
 		1CD84A39200490A400296390 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202FC7A91FF48325001C1B47 /* LoginVC.swift */; };
 		200D83CA1FF302F80009F414 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200D83C91FF302F80009F414 /* AppDelegate.swift */; };
 		200D83CF1FF302F80009F414 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 200D83CD1FF302F80009F414 /* Main.storyboard */; };
@@ -48,6 +49,7 @@
 /* Begin PBXFileReference section */
 		1C57B4372003C942001F3639 /* CreateUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewController.swift; sourceTree = "<group>"; };
 		1C77B20120086DF500192E0D /* SessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
+		1C8A74A1200D6BD3009F6047 /* VenmoWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenmoWebVC.swift; sourceTree = "<group>"; };
 		200D83C61FF302F80009F414 /* HandsOff.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandsOff.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		200D83C91FF302F80009F414 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		200D83CE1FF302F80009F414 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			children = (
 				202FC7A91FF48325001C1B47 /* LoginVC.swift */,
 				20761D5C1FF9AA3000B14046 /* PaymentVC.swift */,
+				1C8A74A1200D6BD3009F6047 /* VenmoWebVC.swift */,
 				20AC3B4A1FF348C1005A97C0 /* SessionVC.swift */,
 				20AC3B4C1FF34956005A97C0 /* SettingsVC.swift */,
 				1C57B4372003C942001F3639 /* CreateUserViewController.swift */,
@@ -434,6 +437,7 @@
 			files = (
 				20A30F611FF353D000027283 /* CustomTabBar.swift in Sources */,
 				20761D5D1FF9AA3000B14046 /* PaymentVC.swift in Sources */,
+				1C8A74A2200D6BD3009F6047 /* VenmoWebVC.swift in Sources */,
 				200D83CA1FF302F80009F414 /* AppDelegate.swift in Sources */,
 				2068B3CD1FF85FBF0017DFC7 /* CustomButton.swift in Sources */,
 				1C77B20220086DF500192E0D /* SessionModel.swift in Sources */,
@@ -533,7 +537,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -589,7 +593,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
