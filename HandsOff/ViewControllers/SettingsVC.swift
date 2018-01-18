@@ -16,18 +16,18 @@ class SettingsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if Reachability.isConnectedToNetwork(){
-
-        } else{
-            //logoutbuttondisabled
-        }
     }
     
     /*
      This function is called when the user wants to log out.
      */
     @IBAction func didTapLogout(_ sender: Any) {
-        logOut(segueId: "unwindToLogin")
+        if Reachability.isConnectedToNetwork() && Auth.auth().currentUser != nil{
+            logOut(segueId: "unwindToLogin")
+
+        } else{
+            //logout via Bluetooth
+        }
 
     }
 }

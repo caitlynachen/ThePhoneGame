@@ -39,6 +39,10 @@ class CreateUserViewController: UIViewController {
         }
         
     }
+    @IBAction func backButtonTapped(_ sender: Any) {
+        self.performSegue(withIdentifier: "unwindToLoginFromCreateUser", sender: self)
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

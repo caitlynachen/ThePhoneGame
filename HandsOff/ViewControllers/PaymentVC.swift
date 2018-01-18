@@ -21,6 +21,9 @@ class PaymentVC: UIViewController {
         
     }
     
+    @IBAction func backButtonTapped(_ sender: Any) {
+        self.performSegue(withIdentifier: "unwindToSession", sender: self)
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "PaymentToVenmo"{
             

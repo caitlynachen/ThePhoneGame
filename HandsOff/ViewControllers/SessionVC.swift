@@ -304,7 +304,10 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
         if segue.identifier == "sessionToPayment"{
             
             let destVC = segue.destination as! PaymentVC
-            destVC.currentUserSession = currentUserSession
+        
+            if currentUserSession != nil {
+                destVC.currentUserSession = currentUserSession
+            }
         }
     }
     
@@ -377,4 +380,7 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
         debugLabel.text = "Host or Join"
         dismiss(animated: true)
     }
+    
+    @IBAction func unwindToSessionVC(segue:UIStoryboardSegue) { }
+
 }
