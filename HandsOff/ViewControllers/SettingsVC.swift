@@ -15,6 +15,12 @@ class SettingsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if Reachability.isConnectedToNetwork(){
+
+        } else{
+            //logoutbuttondisabled
+        }
     }
     
     /*

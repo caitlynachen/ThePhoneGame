@@ -15,6 +15,10 @@ import FirebaseAuth
 
 // Our simple login view where a user will be able to use multiple platforms to authenticate
 class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDelegate, GIDSignInUIDelegate, GIDSignInDelegate {
+    
+    var message: String?
+    var usedFirebaseLogin: Bool = false
+
 /*
      These are the connections to the storyboard!
      They allow for direct manipulation through code.
@@ -29,6 +33,7 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        
     }
     
     /*
@@ -52,21 +57,18 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
         GIDSignIn.sharedInstance().uiDelegate = self
     
         //If there is a currentUser signed in, move to Custom Tab Bar Controller
-        if Auth.auth().currentUser != nil {
+        if Auth.auth().currentUser != nil && Reachability.isConnectedToNetwork() {
             self.performSegue(withIdentifier: "loginToHome", sender: self)
 
         }
         
     }
     
-    /*
-     This function is called when the user wants to LogOut.
- 
-    @IBAction func signOutTapped(_ sender: Any) {
-        logOut(segueId: "")
+    @IBAction func bluetoothLogin(_ sender: Any) {
+        message = "You have been successfully logged in."
+        self.LoginSuccess(segueId: "loginToHome")
+        
     }
-      */
-    
     
     /*
      This function is called wants to Login with Email/Password.
@@ -81,7 +83,10 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
                     self.errorMessage(errorMsg: error.localizedDescription)
                     return
                 }
+                
+                self.usedFirebaseLogin = true
                 self.LoginSuccess(segueId: "loginToHome")
+
 
                  // Clears the textfields
                 self.emailField.text? = ""
@@ -90,6 +95,7 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
                 // This loads the profile/Session view controller and dismisses the login view controller
 
             }
+
         }
        
     }
@@ -112,10 +118,11 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
                 return
             }
             //User signed in
-            
+            self.usedFirebaseLogin = true
             self.LoginSuccess(segueId: "loginToHome")
 
         }
+
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {}
@@ -145,8 +152,8 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
                     return
                 }
           
+                self.usedFirebaseLogin = true
                 self.LoginSuccess(segueId: "loginToHome")
-
             })
             
         }
@@ -174,6 +181,22 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
         return true
     }
     
+    func LoginSuccess(segueId: String){
+        if usedFirebaseLogin == true{
+            self.message = (Auth.auth().currentUser?.email!)! + ", you have been successfully logged in."
+        }
+        
+        let alertController = UIAlertController(title: "Login Success", message: self.message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: { (action) -> Void in
+            alertController.dismiss(animated: true, completion: nil)
+            self.performSegue(withIdentifier: segueId, sender: self)
+            
+        })
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+        
+        
+    }
     
     //unwind Segue To LoginVC Getter
     @IBAction func unwindToVC1(segue:UIStoryboardSegue) { }
@@ -195,19 +218,6 @@ extension UIViewController {
     }
     
 
-    func LoginSuccess(segueId: String){
-        let alertController = UIAlertController(title: "Login Success", message: (Auth.auth().currentUser?.email!)! + ", you have been successfully logged in.", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: { (action) -> Void in
-            alertController.dismiss(animated: true, completion: nil)
-            self.performSegue(withIdentifier: segueId, sender: self)
-            
-            
-        })
-        alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
-        
-        
-    }
     
     func errorMessage(errorMsg:String){
         let alertController = UIAlertController(title: "Login Error", message: errorMsg, preferredStyle: .alert)
