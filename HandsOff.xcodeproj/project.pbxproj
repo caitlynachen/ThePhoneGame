@@ -620,7 +620,7 @@
 				CODE_SIGN_ENTITLEMENTS = HandsOff/HandsOff.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = V63Q6AWG53;
+				DEVELOPMENT_TEAM = 342A5N9CW3;
 				INFOPLIST_FILE = HandsOff/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.RKC.PhoneGame;
@@ -639,7 +639,7 @@
 				CODE_SIGN_ENTITLEMENTS = HandsOff/HandsOff.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = V63Q6AWG53;
+				DEVELOPMENT_TEAM = 342A5N9CW3;
 				INFOPLIST_FILE = HandsOff/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.RKC.PhoneGame;

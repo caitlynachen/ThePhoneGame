@@ -27,6 +27,12 @@ class SettingsVC: UIViewController {
 
         } else{
             //logout via Bluetooth
+            
+            let alertController = UIAlertController(title: "Signout", message: "You have successfully signed out!",preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: { (action) -> Void in
+                alertController.dismiss(animated: true, completion: nil)
+                self.performSegue(withIdentifier: "unwindToLogin", sender: self)
+            })
         }
 
     }

@@ -33,7 +33,7 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
      access to the devices movement mechanics. Gyroscope, accelerometer...
      */
     let motionManager: CMMotionManager = CMMotionManager()
-    var terms = 0
+    var hostTerms = 0
     
     var peerID: MCPeerID!
     var peerIDCollection: Set<MCPeerID>!
@@ -73,17 +73,17 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
         if isFirebaseAvailable == true {
             ref = Database.database().reference().child("sessions")
             notInSessionRef = Database.database().reference().child("notInSession")
-        } else{
-            //bluetooth
-            peerID = MCPeerID(displayName: UIDevice.current.name)
-            peerIDCollection = []
-            mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
-            mcSession.delegate = self
-            mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "thephonegame", discoveryInfo: nil, session: mcSession)
-            sessionStarted = false
-            isConnected = peerIDCollection.count > 0
-            gameInProgress = false
         }
+        //bluetooth
+        peerID = MCPeerID(displayName: UIDevice.current.name)
+        peerIDCollection = []
+        mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
+        mcSession.delegate = self
+        mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "thephonegame", discoveryInfo: nil, session: mcSession)
+        sessionStarted = false
+        isConnected = peerIDCollection.count > 0
+        gameInProgress = false
+        
     }
     
     // A simple animation function to display the "Put phone down" message and a delay to give them 5 seconds to do so
@@ -106,22 +106,34 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
     
     // Here we launch the device movement data collection and use the data to check if the phone has been moved.
     func startMotionDetection() {
-        
-        motionManager.accelerometerUpdateInterval = 0.5
-        motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data, error) in
-            if let data = data {
-                let zData = abs(data.acceleration.z)
-                let xData = abs(data.acceleration.x)
-                let yData = abs(data.acceleration.y)
-                
-                if zData > 1 || xData > 0.5 || yData > 0.5 {
-                    self.didMoveDevice()
-                    self.debugLabel.text = "Session Ended"
-                    self.sendData()
+        if motionManager.isDeviceMotionAvailable {
+            motionManager.deviceMotionUpdateInterval = 0.5
+            motionManager.startDeviceMotionUpdates(to: OperationQueue.current!) { (data, error) in
+                if let deviceMotionData = data {
+                    let zData = abs(deviceMotionData.userAcceleration.z)
+                    let xData = abs(deviceMotionData.userAcceleration.x)
+                    let yData = abs(deviceMotionData.userAcceleration.y)
+                    
+                    print("\nz: \(zData) \nx: \(xData) \ny: \(yData) \n")
+                    
+                    if (zData > 1.75 && zData < 3.0) || (xData > 0.08 && xData < 0.9) || (yData > 0.15 && yData < 0.9) {
+                        self.didMoveDevice()
+                        self.motionManager.showsDeviceMovementDisplay = false
+                        self.debugLabel.text = "Session Ended"
+                        self.sendData()
+                    }
                 }
-            } else {
-                print("CoreMotion error! : \(error!)")
             }
+        } else {
+            let ac = UIAlertController(title: "Core Motion Unavailable!", message: "Please restart your phone and try again.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                //TODO: Apple Pay
+                self.sessionStarted = false
+                self.didPressPay()
+                self.enableGUI()
+                self.debugLabel.isHidden = false
+                self.debugLabel.text = "Host or Join"
+            })
         }
     }
     
@@ -140,18 +152,25 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
     }
     
     func sendData() {
-        let data = "\(sessionStarted!)".data(using: .utf8)
-        print(data)
+        let strData = "\(sessionStarted!)".data(using: .utf8)
+        var i: Int32 = Int32(hostTerms) // must be a var to pass as inout parameter
+        let intData = withUnsafeBytes(of: &i) { (ptr) -> Data in
+            // ptr is an UnsafeRawBufferPointer, which is a Collection
+            return Data(ptr)
+        }
+        print("strData: \(String(describing: strData)), intData: \(intData)")
+        
         do {
-            print(data!)
-            print("sendData()")
-            try mcSession.send(data!, toPeers: mcSession.connectedPeers, with: .reliable)
+            print("sent data")
+            try mcSession.send(strData!, toPeers: mcSession.connectedPeers, with: .reliable)
+            try mcSession.send(intData, toPeers: mcSession.connectedPeers, with: .reliable)
         } catch {
             let ac = UIAlertController(title: "Send error", message: error.localizedDescription, preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .default))
             present(ac, animated: true)
             
         }
+        
     }
     
     func didMoveDevice() {
@@ -163,16 +182,31 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
             self.enableGUI()
             self.debugLabel.isHidden = false
             self.debugLabel.text = "Host or Join"
+            
+            self.notInSessionAdd()
+            
         })
         ac.addAction(UIAlertAction(title: "Don't Pay", style: .cancel) { _ in
             self.sessionStarted = false
             self.enableGUI()
             self.debugLabel.isHidden = false
             self.debugLabel.text = "Host or Join"
+            
+            self.notInSessionAdd()
+            
         })
         self.present(ac, animated: true)
         self.motionManager.stopAccelerometerUpdates()
         self.mcSession.disconnect()
+    }
+    
+    func notInSessionAdd () {
+        if isFirebaseAvailable == true {
+            let newRef = self.notInSessionRef?.childByAutoId()
+            
+            newRef?.setValue(self.currentUserSession?.toAnyObject())
+            self.sessionRef?.removeValue()
+        }
     }
     
     
@@ -182,32 +216,40 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
         ac.addTextField()
         ac.textFields![0].keyboardType = .numberPad
         ac.addAction(UIAlertAction(title: "Start Session", style: .default) { alert in
+            
+            if let sessionTerms = Int(ac.textFields![0].text!) {
+                self.hostTerms = sessionTerms
+            } else {
+                self.hostTerms = 0
+            }
+            
+            if self.isFirebaseAvailable == true {
+                self.hostSessionWithFirebase()
+            } else{
+                //bluetooth
+                self.startBTHostingSession()
+            }
+            
             self.disableGUI()
             self.debugLabel.isHidden = true
             self.performAnimation()
-            print(self.mcSession.connectedPeers.count)
+            //            print(self.mcSession.connectedPeers.count)
+            
             if self.mcSession.connectedPeers.count > 0 {
                 self.sendData()
             }
-            self.terms = Int(ac.textFields![0].text!)!
+            
         })
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(ac, animated: true)
         
     }
     
-    
     // Runs when the host button is pressed
     @IBAction func didtapHostBtn(_ sender: Any) {
         sessionStart()
         
         //firebase
-        if isFirebaseAvailable == true {
-            hostSessionWithFirebase()
-        } else{
-            //bluetooth
-            startBTHostingSession()
-        }
         
     }
     
@@ -227,12 +269,12 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
     }
     
     func hostSessionWithFirebase(){
+        print(hostTerms)
         self.sessionRef = self.ref?.childByAutoId()
-        let sessionModel = SessionModel(hostUser: (Auth.auth().currentUser?.email)!, inSession: "true", terms: "\(terms)", key: (self.sessionRef?.key)!)
+        let sessionModel = SessionModel(hostUser: (Auth.auth().currentUser?.email)!, inSession: "true", terms: "\(hostTerms)", key: (self.sessionRef?.key)!)
         self.sessionRef?.setValue(sessionModel.toAnyObject())
         
         self.currentUserSession = sessionModel
-        
     }
     
     var hostSessionToJoin: String?
@@ -243,12 +285,10 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
             ac.addTextField()
             ac.addAction(UIAlertAction(title: "Join a Session", style: .default, handler: {
                 alert in
-                
                 self.hostSessionToJoin =  ac.textFields![0].text!
-                
                 //firebase
                 self.joinSessionWithFirebase()
-    
+                
             }))
             ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
             present(ac, animated: true)
@@ -269,7 +309,6 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
                     self.sessionRef = datasnap.ref
                     
                     let joinedRef = datasnap.ref.child("joinedUsers")
-                    
                     joinedRef.childByAutoId().setValue(Auth.auth().currentUser?.email!)
                     self.disableGUI()
                     self.debugLabel.isHidden = true
@@ -304,7 +343,7 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
         if segue.identifier == "sessionToPayment"{
             
             let destVC = segue.destination as! PaymentVC
-        
+            
             if currentUserSession != nil {
                 destVC.currentUserSession = currentUserSession
             }
@@ -315,15 +354,12 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
     //MARK: Multipeer Connectivity Delegate Methods
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
-        
     }
     
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
-        
     }
     
-    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
-        
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) { 
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
@@ -378,9 +414,9 @@ class SessionVC: UIViewController,MCSessionDelegate, MCBrowserViewControllerDele
     
     func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
         debugLabel.text = "Host or Join"
-        dismiss(animated: true)
+        dismiss(animated:true)
     }
     
     @IBAction func unwindToSessionVC(segue:UIStoryboardSegue) { }
-
+    
 }

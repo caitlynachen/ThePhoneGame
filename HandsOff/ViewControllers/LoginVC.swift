@@ -151,17 +151,12 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
                     self.errorMessage(errorMsg: error.localizedDescription)
                     return
                 }
-          
                 self.usedFirebaseLogin = true
                 self.LoginSuccess(segueId: "loginToHome")
             })
             
         }
     }
-   
-    //TODO: FireBase calls
-    // This is where Firebase returns tokens and we load up a session id
-    
     
     //MARK: Delegate methods
     
@@ -185,26 +180,20 @@ class LoginVC: UIViewController, UINavigationControllerDelegate,UITextFieldDeleg
         if usedFirebaseLogin == true{
             self.message = (Auth.auth().currentUser?.email!)! + ", you have been successfully logged in."
         }
-        
         let alertController = UIAlertController(title: "Login Success", message: self.message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: { (action) -> Void in
             alertController.dismiss(animated: true, completion: nil)
             self.performSegue(withIdentifier: segueId, sender: self)
-            
         })
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
         
-        
+        usedFirebaseLogin = false
     }
     
     //unwind Segue To LoginVC Getter
     @IBAction func unwindToVC1(segue:UIStoryboardSegue) { }
     
-    //TODO: User input methods
-    // Function for user input checks
-    
-
 }
 
 /*
@@ -217,14 +206,11 @@ extension UIViewController {
         view.addGestureRecognizer(tap)
     }
     
-
-    
     func errorMessage(errorMsg:String){
         let alertController = UIAlertController(title: "Login Error", message: errorMsg, preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(okayAction)
         self.present(alertController, animated: true, completion: nil)
-        
     }
     
     func logOut(segueId: String){
@@ -237,24 +223,18 @@ extension UIViewController {
                 if segueId != ""{
                     self.performSegue(withIdentifier: segueId, sender: self)
                 }
-                
             })
             alertController.addAction(cancelAction)
             self.present(alertController, animated: true, completion: nil)
-            
-            
-            
         } catch let error as NSError {
             errorMessage(errorMsg: error.localizedDescription)
             return
         }
-        
     }
-    
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
     
 }
 
