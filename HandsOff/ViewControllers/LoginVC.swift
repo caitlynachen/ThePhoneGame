@@ -206,7 +206,7 @@ extension UIViewController {
         view.addGestureRecognizer(tap)
     }
     
-    func errorMessage(errorMsg:String){
+    func errorMessage(errorMsg: String){
         let alertController = UIAlertController(title: "Login Error", message: errorMsg, preferredStyle: .alert)
         let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(okayAction)
